@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Dialog - Animation</title>
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script>
+  
+$(document).ready(function () {
+    /*$(document).mouseup(function (e) { //was mousemove
+        $("#d").dialog("option", { position: [e.pageX+5, e.pageY+5] });
+    });*/
+
+    /*$("#d").dialog({
+        autoOpen: false
+    });
+    $(".link").on("click", function () {*/
+    	$(document).on("click",".link", function () {
+       
+    	//var parameters = "{'word':'" + getSelectionText()  + "'}";
+    	//alert($(this).text());
+		
+		$.ajax({
+		  url: 'rest/CrunchifyRESTService/crunchifyService',
+
+		  data: {'word':$(this).text()},
+		  contentType: "application/json; charset=utf-8",
+		  success: function( resp ) {
+			//$( '#target').html( resp.people[0].name );
+			$("#d").html(resp);
+			//$("#d").dialog('open');			
+		  },
+		  error: function( req, status, err ) {
+			console.log( 'something went wrong', status, err );
+		  }
+		});
+
+    });
+
+});
+
+function getSelectionText() {
+    var text = "";
+    if (window.getSelection) {
+        text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != "Control") {
+        text = document.selection.createRange().text;
+    }
+
+    if (text.charAt(text.length - 1) == ' ') {
+    	text = text.substr(0, text.length - 1);
+    	}    
+    
+    return text;
+}
+
+
+
+
+  </script>
+  <style>
+	#c { 
+		width: 800px;
+		height: 200px;
+		
+	}
+	.link{
+		
+		text-decoration: underline;
+	}
+	
+	.imgDiv{
+		position: relative;
+		
+	}
+	
+  </style>
+</head>
+<body>
+<br/>
+<br/>
+<br/>
+	<div id="c" align="justify">
+
+		
+		Now, we have the experimental result of <a class="link" href="#d" data-rel="popup">equation2</a>, 
+	how do we go from this result to the standard form of Farday's Law in <a class="link" href="#d" data-rel="popup">equation1</a>? 
+	Well, I'm glad you asked. Let's imagine a simple loop, with a time varying <a class="link" href="#d" data-rel="popup">B</a> 
+
+			<div align="center">
+				<img src="circuit-loop.gif"/>
+			</div>
+			We know that the rate of change of the total magnetic flux is equal
+			to the opposite of the <a class="link" href="#d" data-rel="popup">EMF</a>, or the electric force within the wire.
+			The total magnetic flux is simply the integral (or sum) of the <a class="link" href="#d" data-rel="popup">B</a> 
+			field over the area enclosed by the wire: field within it: Equation3
+						
+			<div align="center">
+
+				<img src="magnetic-flux.png" />
+			</div>					
+
+		
+	</div>
+	<div id="d" data-role="popup"></div>
+	<div id="d1" data-role="popup"></div>
+</body>
+</html>
